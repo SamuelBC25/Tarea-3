@@ -8,12 +8,12 @@ data class User(val username: String, val password: String)
 data class ApiResponse(val message: String)
 
 interface ApiService {
-    @GET("/")
+    @GET("")
     suspend fun checkStatus(): ApiResponse
 
-    @POST("/register")
+    @POST("register")
     suspend fun register(@Body user: User): ApiResponse
 
-    @POST("/login")
+    @POST("login")
     suspend fun login(@Body user: User): ApiResponse
 }
