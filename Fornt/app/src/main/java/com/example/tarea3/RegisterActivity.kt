@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.example.tarea3.api.*
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
 
 class RegisterActivity : AppCompatActivity() {
 
@@ -38,6 +39,20 @@ class RegisterActivity : AppCompatActivity() {
                         Toast.LENGTH_LONG
                     ).show()
 
+                } catch (e: HttpException) {
+                    if (e.code() == 409 || e.code() == 400) {
+                        Toast.makeText(
+                            this@RegisterActivity,
+                            "El usuario ya existe o los datos son inválidos",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    } else {
+                        Toast.makeText(
+                            this@RegisterActivity,
+                            "Error del servidor: ${e.code()}",
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
                 } catch (e: Exception) {
                     Log.e("RegisterActivity", "Error during registration", e)
                     Toast.makeText(
@@ -45,7 +60,6 @@ class RegisterActivity : AppCompatActivity() {
                         "Connection Error: ${e.message}",
                         Toast.LENGTH_LONG
                     ).show()
-
                 }
             }
         }
