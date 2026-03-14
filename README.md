@@ -1,11 +1,11 @@
 # Tarea 3: Consumo de una API REST dockerizada desde Android
 
-[cite_start]Este tarea consiste en una aplicación Android que consume un servicio REST dockerizado (Python/Flask) para la gestión de usuarios.
+Este tarea consiste en una aplicación Android que consume un servicio REST dockerizado (Python/Flask) para la gestión de usuarios.
 
 ## Requisitos Previos
-* [cite_start]**Docker Desktop** instalado y en ejecución.
-* [cite_start]**Android Studio** (API 24 o superior recomendado).
-* [cite_start]**Dispositivo físico Android** conectado a la misma red Wi-Fi que la PC.
+* **Docker Desktop** instalado y en ejecución.
+* **Android Studio** (API 24 o superior recomendado).
+* **Dispositivo físico Android** conectado a la misma red Wi-Fi que la PC.
 
 ---
 
