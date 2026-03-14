@@ -1,97 +1,60 @@
-# Flask Login API + Android Client
+# Tarea 3: Consumo de una API REST dockerizada desde Android
 
-Este repositorio contiene dos componentes: un backend REST construido con Flask y dockerizado, y una app Android base en Kotlin para consumirlo.
+[cite_start]Este tarea consiste en una aplicación Android que consume un servicio REST dockerizado (Python/Flask) para la gestión de usuarios.
 
----
-
-## Backend — `Docker-Flask/ORM/`
-
-API REST minimalista para registro e inicio de sesión de usuarios. Usa **Flask-SQLAlchemy** para persistencia con SQLite y **Flask-Bcrypt** para hashear contraseñas. No requiere configurar una base de datos externa; el archivo `site.db` se crea automáticamente al iniciar.
-
-### Endpoints
-
-| Método | Ruta | Descripción |
-|---|---|---|
-| `GET` | `/` | Verifica que la API está activa |
-| `POST` | `/register` | Registra un nuevo usuario |
-| `POST` | `/login` | Autentica un usuario existente |
-
-#### `POST /register`
-
-```json
-// Request
-{ "username": "alice", "password": "secreto123" }
-
-// Response 201
-{ "message": "Usuario creado exitosamente" }
-
-// Response 400 (usuario duplicado)
-{ "message": "El usuario ya existe" }
-```
-
-#### `POST /login`
-
-```json
-// Request
-{ "username": "alice", "password": "secreto123" }
-
-// Response 200
-{ "status": "success", "message": "Login exitoso", "user_id": 1, "username": "alice" }
-
-// Response 401
-{ "status": "error", "message": "Credenciales inválidas" }
-```
-
-### Levantar con Docker
-
-```bash
-cd Docker-Flask/ORM
-docker compose up --build
-```
-
-El servicio queda disponible en `http://localhost:5000`. Si modificas `app.py` mientras el contenedor está corriendo, Flask recarga automáticamente gracias al volumen montado y al modo debug.
-
-### Probar con curl
-
-```bash
-curl http://localhost:5000/
-
-curl -X POST http://localhost:5000/register \
-     -H "Content-Type: application/json" \
-     -d "{\"username\":\"android_dev\",\"password\":\"mi_password_secreto\"}"
-
-curl -X POST http://localhost:5000/login \
-     -H "Content-Type: application/json" \
-     -d "{\"username\":\"android_dev\",\"password\":\"mi_password_secreto\"}"
-```
-
-### Stack
-
-- Python 3.9 (imagen `python:3.9-slim`)
-- Flask · Flask-SQLAlchemy · Flask-Bcrypt
-- SQLite (archivo local, no requiere servicio externo)
-- Docker Compose
+## Requisitos Previos
+* [cite_start]**Docker Desktop** instalado y en ejecución.
+* [cite_start]**Android Studio** (API 24 o superior recomendado).
+* [cite_start]**Dispositivo físico Android** conectado a la misma red Wi-Fi que la PC.
 
 ---
 
-## App Android — `Android/FlaskLogin/`
+## Pasos para compilar y ejecutar
 
-Proyecto base generado con Android Studio usando **Kotlin** y **Jetpack Compose** (Material 3). El `MainActivity.kt` es el punto de partida; la lógica de conexión con la API queda pendiente de implementar.
+### 1. Levantar el Backend (Referencia)
+1. Abre una terminal y navega a la carpeta del backend:
+     ```bash
+     cd "Back/Docker-Flask/ORM"
 
-**Configuración:** `minSdk 24`, `targetSdk 36`.
+2. Construye y levanta el contenedor utilizando Docker Compose:
+     ```bash
+     docker compose up --build
 
-### Conectar al backend desde el emulador
+3. El servicio estará disponible en http://localhost:5000.
 
-El emulador AVD no resuelve `localhost` de la máquina host. Usa `http://10.0.2.2:5000` en su lugar. Con un dispositivo físico en la misma red, usa la IP local de tu PC.
+### 2. Configuración para Dispositivo Físico
+Al utilizar un teléfono externo, se realizaron los siguientes pasos de configuración:
 
-Agrega en `AndroidManifest.xml`:
+Se verificó que el teléfono y la PC estuvieran en la misma red Wi-Fi.
 
-```xml
-<uses-permission android:name="android.permission.INTERNET" />
-```
+Se obtuvo la dirección IPv4 de la PC mediante el comando ipconfig.
 
-Y dentro de `<application>`:
+Se actualizó el archivo RetrofitClient.kt para usar la IP de la PC: http://<IP-DE-TU-PC>:5000.
+El código esta configurado para funcionar directamente con la 10.0.2.2:5000, pero debeajo des esa linea viene comentado la IPv4 de mi red LAN.
 
-```xml
-android:usesCleartextTraffic="true"
-```
+Se configuró android:usesCleartextTraffic="true" en el AndroidManifest.xml para permitir tráfico HTTP.
+
+
+## Evidencias de los Ejercicios Desarrollados
+### Ejercicio 1: 
+Conexión y verificación de la API Se realiza una petición GET al endpoint raíz (/) al iniciar la aplicación.
+![alt text](ss/Status-API.png)
+![alt text](ss/GET_init.png)
+
+### Ejercicio 2: 
+Pantalla de Registro Se envía una petición POST a /register con un cuerpo JSON.Caso Exitoso: 
+![alt text](ss/UsCreado.png)
+![alt text](ss/UsExiste.png)
+![alt text](ss/UsDocker.png)
+
+### Ejercicio 3: 
+Pantalla de Login Se envía una petición POST a /login. Al autenticar correctamente, navega a la pantalla de bienvenida.Flujo Completo: 
+Flujo: Login -> Welcome
+![alt text](ss/Login.png)
+![alt text](ss/welcome.png)
+
+![alt text](ss/LoginDocker.png)
+
+### Ejercicio 4: 
+Manejo de errores de red Se detuvo el contenedor Docker (docker compose down) mientras la app estaba abierta. La aplicación capturó la excepción de red y mostró un mensaje amigable.
+![alt text](ss/docker-down.jpeg)
