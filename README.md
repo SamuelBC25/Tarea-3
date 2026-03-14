@@ -30,7 +30,7 @@ Se verificó que el teléfono y la PC estuvieran en la misma red Wi-Fi.
 Se obtuvo la dirección IPv4 de la PC mediante el comando ipconfig.
 
 Se actualizó el archivo RetrofitClient.kt para usar la IP de la PC: http://<IP-DE-TU-PC>:5000.
-El código esta configurado para funcionar directamente con la 10.0.2.2:5000, pero debeajo des esa linea viene comentado la IPv4 de mi red LAN.
+El código esta configurado para funcionar directamente con la 10.0.2.2:5000, pero una liena de código abajo está comentado la IPv4 de mi red LAN.
 
 Se configuró android:usesCleartextTraffic="true" en el AndroidManifest.xml para permitir tráfico HTTP.
 
