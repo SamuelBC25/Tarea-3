@@ -36,6 +36,17 @@ Se configuró android:usesCleartextTraffic="true" en el AndroidManifest.xml para
 
 
 ## Evidencias de los Ejercicios Desarrollados
+### Tabla de Endpoints y Casos de Prueba
+
+| Método | Endpoint | Código HTTP | Significado Técnico | Relación con la Tarea |
+|--------|----------|-------------|--------------------|-----------------------|
+| GET | `/` | 200 | **OK**: Petición exitosa | Ejercicio 1: Verificación de conexión inicial |
+| POST | `/register` | 201 | **Created**: Recurso creado | Ejercicio 2: Registro exitoso de nuevo usuario |
+| POST | `/register` | 400 | **Bad Request**: Error en la petición | Ejercicio 2: Intento de registro de usuario duplicado |
+| POST | `/login` | 200 | **OK**: Autenticación exitosa | Ejercicio 3: Login correcto y navegación |
+| POST | `/login` | 401 | **Unauthorized**: No autorizado | Ejercicio 3: Intento de login con credenciales incorrectas |
+| GET/POST | *(N/A)* | Error de Red | **Exception**: Sin respuesta | Ejercicio 4: Servidor apagado (Docker down) |
+
 ### Ejercicio 1: 
 Conexión y verificación de la API Se realiza una petición GET al endpoint raíz (/) al iniciar la aplicación.
 ![alt text](ss/Status-API.png)
